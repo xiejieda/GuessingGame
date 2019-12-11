@@ -1,2 +1,2 @@
-# DrawSomething
-Based on android “you draw and I guess"
+# Guessing Game
+Based on android “guessing game"
