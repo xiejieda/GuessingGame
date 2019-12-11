@@ -6,7 +6,7 @@
     android:orientation="horizontal">
 
     <LinearLayout
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:layout_width="140dp"
         android:layout_height="140dp"
         android:orientation="vertical"
@@ -16,27 +16,25 @@
         <Button
             android:id="@+id/user_1"
             android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:text="玩家1" />
+            android:layout_height="70dp"/>
 
         <Button
             android:id="@+id/user_2"
             android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:text="玩家2" />
+            android:layout_height="70dp" />
 
     </LinearLayout>
 
     <ImageView
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:id="@+id/imageView3"
         android:layout_width="140dp"
         android:layout_height="140dp"
-        app:srcCompat="@drawable/ic_launcher_background"
-        android:layout_weight="1"/>
+        app:srcCompat="@mipmap/table"
+        android:layout_weight="1" />
 
     <LinearLayout
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:layout_width="140dp"
         android:layout_height="140dp"
         android:orientation="vertical"
@@ -46,13 +44,11 @@
         <Button
             android:id="@+id/user_3"
             android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:text="玩家3" />
+            android:layout_height="70dp" />
 
         <Button
             android:id="@+id/user_4"
             android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:text="玩家4" />
+            android:layout_height="70dp" />
     </LinearLayout>
 </LinearLayout>
