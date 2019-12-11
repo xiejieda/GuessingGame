@@ -8,5 +8,4 @@
     android:id="@+id/hall"
     android:orientation="vertical">
 
-
 </LinearLayout>
