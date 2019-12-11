@@ -1,6 +1,6 @@
 package com.example.drawsomething.bean;
 
-public class DrawSomethingTable {
+public class GuessingGameTable {
     private int id;
     private int user_1;
     private int user_2;

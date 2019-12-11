@@ -5,6 +5,7 @@ import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.core.app.ActivityCompat;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
@@ -13,7 +14,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.example.drawsomething.bean.DrawSomethingTable;
+import com.example.drawsomething.bean.GuessingGameTable;
 import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
@@ -49,11 +50,11 @@ public class LobbyActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+            public void onResponse(@NotNull final Call call, @NotNull Response response) throws IOException {
                 String context = response.body().string();
                 Log.i(TAG, "onResponse: "+context);
                 Gson gson = new Gson();
-                final DrawSomethingTable[] tables = gson.fromJson(context,DrawSomethingTable[].class);
+                final GuessingGameTable[] tables = gson.fromJson(context, GuessingGameTable[].class);
 
                 runOnUiThread(new Runnable() {
                     @SuppressLint("WrongConstant")
@@ -62,14 +63,62 @@ public class LobbyActivity extends AppCompatActivity {
                         LinearLayout linearLayout = findViewById(R.id.hall);
                         LinearLayout oneLine = null;
                         for (int i=0;i<tables.length;i++){
-                            DrawSomethingTable drawSomethingTable = tables[i];
+                            GuessingGameTable guessingGameTable = tables[i];
                             oneLine = new LinearLayout(getApplicationContext());
                             oneLine.setOrientation(LinearLayoutCompat.HORIZONTAL);
                             linearLayout.addView(oneLine);
                             View view = getLayoutInflater().inflate(R.layout.table, null);
-                            Button user_1 = view.findViewById(R.id.user_1);
-                            if (drawSomethingTable.getUser_1() > 0){
-
+                            Button user_1 = (Button) view.findViewById(R.id.user_1);
+                            Button user_2 = (Button) view.findViewById(R.id.user_2);
+                            Button user_3 = (Button) view.findViewById(R.id.user_3);
+                            Button user_4 = (Button) view.findViewById(R.id.user_4);
+                            if (guessingGameTable.getUser_1() > 0){
+                                user_1.setBackground(ActivityCompat.getDrawable(getApplicationContext(),R.mipmap.people));
+                            }else{
+                                user_1.setBackground(ActivityCompat.getDrawable(getApplicationContext(),R.mipmap.down));
+                                user_1.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Intent intent = new Intent(getApplicationContext(),GameActivity.class);
+                                        startActivity(intent);
+                                    }
+                                });
+                            }
+                            if (guessingGameTable.getUser_2() > 0){
+                                user_2.setBackground(ActivityCompat.getDrawable(getApplicationContext(),R.mipmap.people));
+                            }else{
+                                user_2.setBackground(ActivityCompat.getDrawable(getApplicationContext(),R.mipmap.down));
+                                user_2.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Intent intent = new Intent(getApplicationContext(),GameActivity.class);
+                                        startActivity(intent);
+                                    }
+                                });
+                            }
+                            if (guessingGameTable.getUser_3() > 0){
+                                user_3.setBackground(ActivityCompat.getDrawable(getApplicationContext(),R.mipmap.people));
+                            }else{
+                                user_3.setBackground(ActivityCompat.getDrawable(getApplicationContext(),R.mipmap.down));
+                                user_3.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Intent intent = new Intent(getApplicationContext(),GameActivity.class);
+                                        startActivity(intent);
+                                    }
+                                });
+                            }
+                            if (guessingGameTable.getUser_4() > 0){
+                                user_4.setBackground(ActivityCompat.getDrawable(getApplicationContext(),R.mipmap.people));
+                            }else{
+                                user_4.setBackground(ActivityCompat.getDrawable(getApplicationContext(),R.mipmap.down));
+                                user_4.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Intent intent = new Intent(getApplicationContext(),GameActivity.class);
+                                        startActivity(intent);
+                                    }
+                                });
                             }
                             oneLine.addView(view);
                         }
