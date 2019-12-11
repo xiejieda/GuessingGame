@@ -2,12 +2,14 @@ package com.example.drawsomething;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.core.app.ActivityCompat;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -60,11 +62,15 @@ public class LobbyActivity extends AppCompatActivity {
                         LinearLayout linearLayout = findViewById(R.id.hall);
                         LinearLayout oneLine = null;
                         for (int i=0;i<tables.length;i++){
+                            DrawSomethingTable drawSomethingTable = tables[i];
                             oneLine = new LinearLayout(getApplicationContext());
                             oneLine.setOrientation(LinearLayoutCompat.HORIZONTAL);
                             linearLayout.addView(oneLine);
                             View view = getLayoutInflater().inflate(R.layout.table, null);
-//                            findViewById(R.id.)
+                            Button user_1 = view.findViewById(R.id.user_1);
+                            if (drawSomethingTable.getUser_1() > 0){
+
+                            }
                             oneLine.addView(view);
                         }
                     }
