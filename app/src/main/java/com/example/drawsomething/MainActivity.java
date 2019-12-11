@@ -81,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
                 if ("success".equals(status)){
                     Map<String, Object> user = (Map<String, Object>) result.get("user");
                     int id = (int)(double)user.get("id");
-                    String username = (String)user.get("username");
                     SharedPreferences sp = getSharedPreferences("user", MODE_PRIVATE);
                     SharedPreferences.Editor editoruser = sp.edit();
                     editoruser.putInt("id",id);
@@ -99,7 +98,9 @@ public class MainActivity extends AppCompatActivity {
                     editor.apply();
                     Looper.prepare();
                     Toast.makeText(getApplicationContext(),"登录成功",Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(),LobbyActivity.class));
+                    Intent intent = new Intent(getApplicationContext(), LobbyActivity.class);
+                    intent.putExtra("user_id",id);
+                    startActivity(intent);
                     Looper.loop();
 
                 }else{
@@ -119,5 +120,6 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(MainActivity.this, SigninActivity.class);
         startActivity(i);
     }
+
 
 }
