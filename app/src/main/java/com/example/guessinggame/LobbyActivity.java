@@ -1,4 +1,4 @@
-package com.example.drawsomething;
+package com.example.guessinggame;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
@@ -15,7 +15,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.example.drawsomething.bean.GuessingGameTable;
+import com.example.guessinggame.bean.GuessingGameTable;
 import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
@@ -43,7 +43,7 @@ public class LobbyActivity extends AppCompatActivity {
 
     private void setupHall(){
         OkHttpClient okHttpClient = new OkHttpClient();
-        String url = "http://10.62.16.240:8080/DrawSomethingAPI/Table";
+        String url = "http://10.62.16.247:8080/GuessingGameAPI/Table";
         final Request request = new Request.Builder().url(url).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
@@ -179,5 +179,26 @@ public class LobbyActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         handler.removeCallbacks(runnable);
+    }
+
+    public void logout(View view) {
+        OkHttpClient okHttpClient = new OkHttpClient();
+        String url = MessageFormat.format("http://10.62.16.247:8080/GuessingGameAPI/Logout?id={0}",userId);
+        final Request request = new Request.Builder().url(url).build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Looper.prepare();
+                Toast.makeText(getApplicationContext(),"Failed on Logout",Toast.LENGTH_SHORT).show();
+                Looper.loop();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                LobbyActivity.this.finish();
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

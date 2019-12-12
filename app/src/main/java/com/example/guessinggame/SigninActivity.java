@@ -1,8 +1,7 @@
-package com.example.drawsomething;
+package com.example.guessinggame;
 
 import android.os.Bundle;
 import android.os.Looper;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -53,7 +52,7 @@ public class SigninActivity extends AppCompatActivity {
         }
 
         OkHttpClient okHttpClient=new OkHttpClient();
-        String url= MessageFormat.format("http://10.62.16.240:8080/DrawSomethingAPI/Signin?username={0}&password={1}",username,MD5Utils.md5(password));
+        String url= MessageFormat.format("http://10.62.16.247:8080/GuessingGameAPI/Signin?username={0}&password={1}",username,MD5Utils.md5(password));
         final Request request=new Request.Builder().url(url).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
@@ -74,7 +73,6 @@ public class SigninActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"注册成功",Toast.LENGTH_SHORT).show();
                     SigninActivity.this.finish();
                     Looper.loop();
-
                 }else{
                     Looper.prepare();
                     Toast.makeText(getApplicationContext(),"用户名已存在",Toast.LENGTH_SHORT).show();

@@ -1,4 +1,4 @@
-package com.example.drawsomething;
+package com.example.guessinggame;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
