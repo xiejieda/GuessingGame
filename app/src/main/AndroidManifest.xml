@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.drawsomething">
+    package="com.example.guessinggame">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -11,16 +11,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".GameActivity"></activity>
-        <activity android:name=".LobbyActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name="com.example.guessinggame.GameActivity"></activity>
+        <activity android:name="com.example.guessinggame.LobbyActivity" />
+        <activity android:name="com.example.guessinggame.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SigninActivity" />
+        <activity android:name="com.example.guessinggame.SigninActivity" />
     </application>
 
 </manifest>

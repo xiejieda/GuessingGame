@@ -1,4 +1,4 @@
-package com.example.drawsomething;
+package com.example.guessinggame;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         OkHttpClient okHttpClient=new OkHttpClient();
-        String url= MessageFormat.format("http://10.62.16.240:8080/DrawSomethingAPI/Login?username={0}&password={1}",username,MD5Utils.md5(password));
+        String url= MessageFormat.format("http://10.62.16.247:8080/GuessingGameAPI/Login?username={0}&password={1}",username,MD5Utils.md5(password));
         final Request request=new Request.Builder().url(url).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
@@ -101,17 +101,18 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), LobbyActivity.class);
                     intent.putExtra("user_id",id);
                     startActivity(intent);
+                    MainActivity.this.finish();
                     Looper.loop();
 
-                }else{
+                } else if ("failed_exist".equals(status)){
+                    Looper.prepare();
+                    Toast.makeText(getApplicationContext(),"该账号已登录",Toast.LENGTH_SHORT).show();
+                    Looper.loop();
+                } else{
                     Looper.prepare();
                     Toast.makeText(getApplicationContext(),"用户名或密码错误",Toast.LENGTH_SHORT).show();
                     Looper.loop();
                 }
-
-
-
-
             }
         });
     }

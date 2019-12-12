@@ -1,4 +1,4 @@
-package com.example.drawsomething.bean;
+package com.example.guessinggame.bean;
 
 public class GuessingGameTable {
     private int id;
