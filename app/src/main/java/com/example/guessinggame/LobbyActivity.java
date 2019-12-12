@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.guessinggame.bean.GuessingGameTable;
@@ -129,6 +130,8 @@ public class LobbyActivity extends AppCompatActivity {
                                     }
                                 });
                             }
+                            int table_id = i+1;
+                            ((TextView) view.findViewById(R.id.table_id)).setText("_"+table_id+"_");
                             oneLine.addView(view);
                         }
                     }
@@ -182,6 +185,9 @@ public class LobbyActivity extends AppCompatActivity {
     }
 
     public void logout(View view) {
+        logout();
+    }
+    private void logout() {
         OkHttpClient okHttpClient = new OkHttpClient();
         String url = MessageFormat.format("http://10.62.16.247:8080/GuessingGameAPI/Logout?id={0}",userId);
         final Request request = new Request.Builder().url(url).build();
@@ -196,9 +202,12 @@ public class LobbyActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 LobbyActivity.this.finish();
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
             }
         });
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        logout();
     }
 }

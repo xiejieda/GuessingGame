@@ -101,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), LobbyActivity.class);
                     intent.putExtra("user_id",id);
                     startActivity(intent);
-                    MainActivity.this.finish();
                     Looper.loop();
 
                 } else if ("failed_exist".equals(status)){
