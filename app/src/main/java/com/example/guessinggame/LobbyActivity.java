@@ -33,7 +33,6 @@ import okhttp3.Response;
 public class LobbyActivity extends AppCompatActivity {
     private final static String TAG=MainActivity.class.getSimpleName();
     private int userId;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,10 +55,9 @@ public class LobbyActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(@NotNull final Call call, @NotNull Response response) throws IOException {
-                String context = response.body().string();
-                Log.i(TAG, "onResponse: "+context);
+                String content = response.body().string();
                 Gson gson = new Gson();
-                final GuessingGameTable[] tables = gson.fromJson(context, GuessingGameTable[].class);
+                final GuessingGameTable[] tables = gson.fromJson(content, GuessingGameTable[].class);
 
                 runOnUiThread(new Runnable() {
                     @SuppressLint("WrongConstant")
@@ -78,6 +76,9 @@ public class LobbyActivity extends AppCompatActivity {
                             Button user_2 = (Button) view.findViewById(R.id.user_2);
                             Button user_3 = (Button) view.findViewById(R.id.user_3);
                             Button user_4 = (Button) view.findViewById(R.id.user_4);
+                            if (guessingGameTable.getUser_1()==0&&guessingGameTable.getUser_2()==0&&guessingGameTable.getUser_3()==0&&guessingGameTable.getUser_4()==0){
+                                gameLastCheck(i+1);
+                            }
                             if (guessingGameTable.getUser_1() > 0) {
                                 user_1.setBackground(ActivityCompat.getDrawable(getApplicationContext(), R.mipmap.people));
                                 user_1.setEnabled(false);
@@ -93,10 +94,10 @@ public class LobbyActivity extends AppCompatActivity {
                             }
                             if (guessingGameTable.getUser_2() > 0) {
                                 user_2.setBackground(ActivityCompat.getDrawable(getApplicationContext(), R.mipmap.people));
-                                user_1.setEnabled(false);
+                                user_2.setEnabled(false);
                             } else {
                                 user_2.setBackground(ActivityCompat.getDrawable(getApplicationContext(), R.mipmap.down));
-                                user_1.setEnabled(true);
+                                user_2.setEnabled(true);
                                 user_2.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
@@ -106,10 +107,10 @@ public class LobbyActivity extends AppCompatActivity {
                             }
                             if (guessingGameTable.getUser_3() > 0) {
                                 user_3.setBackground(ActivityCompat.getDrawable(getApplicationContext(), R.mipmap.people));
-                                user_1.setEnabled(false);
+                                user_3.setEnabled(false);
                             } else {
                                 user_3.setBackground(ActivityCompat.getDrawable(getApplicationContext(), R.mipmap.down));
-                                user_1.setEnabled(true);
+                                user_3.setEnabled(true);
                                 user_3.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
@@ -119,10 +120,10 @@ public class LobbyActivity extends AppCompatActivity {
                             }
                             if (guessingGameTable.getUser_4() > 0) {
                                 user_4.setBackground(ActivityCompat.getDrawable(getApplicationContext(), R.mipmap.people));
-                                user_1.setEnabled(false);
+                                user_4.setEnabled(false);
                             } else {
                                 user_4.setBackground(ActivityCompat.getDrawable(getApplicationContext(), R.mipmap.down));
-                                user_1.setEnabled(true);
+                                user_4.setEnabled(true);
                                 user_4.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
@@ -130,6 +131,19 @@ public class LobbyActivity extends AppCompatActivity {
                                     }
                                 });
                             }
+
+                            if (guessingGameTable.getLast_check()==1){
+                                user_1.setEnabled(false);
+                                user_2.setEnabled(false);
+                                user_3.setEnabled(false);
+                                user_4.setEnabled(false);
+                            }else{
+                                user_1.setEnabled(true);
+                                user_2.setEnabled(true);
+                                user_3.setEnabled(true);
+                                user_4.setEnabled(true);
+                            }
+
                             int table_id = i+1;
                             ((TextView) view.findViewById(R.id.table_id)).setText("_"+table_id+"_");
                             oneLine.addView(view);
@@ -141,11 +155,31 @@ public class LobbyActivity extends AppCompatActivity {
         });
     }
 
+    private void gameLastCheck(int tableId){
+        OkHttpClient okHttpClient = new OkHttpClient();
+        String gameurl = MessageFormat.format("http://10.62.16.247:8080/GuessingGameAPI/GameStop?table_id={0}",tableId);
+        Request gamerequest = new Request.Builder().url(gameurl).build();
+        okHttpClient.newCall(gamerequest).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Looper.prepare();
+                Toast.makeText(getApplicationContext(),"Failed",Toast.LENGTH_SHORT).show();
+                Looper.loop();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String content = response.body().string();
+            }
+        });
+    }
+
     private void joinTable(int place,GuessingGameTable guessingGameTable){
         final Intent intent = new Intent(getApplicationContext(),GameActivity.class);
         intent.putExtra("tableId",guessingGameTable.getId());
         intent.putExtra("place",place);
-        String url =  MessageFormat.format("http://10.62.16.240:8080/DrawSomethingAPI/JoinTable?id_table={0}&user={1}&id={2}",guessingGameTable.getId(),place,userId);
+        intent.putExtra("userId",userId);
+        String url =  MessageFormat.format("http://10.62.16.247:8080/GuessingGameAPI/JoinTable?id_table={0}&user={1}&id={2}",guessingGameTable.getId(),place,userId);
         OkHttpClient okHttpClient=new OkHttpClient();
         final Request request=new Request.Builder().url(url).build();
         okHttpClient.newCall(request).enqueue(new Callback() {

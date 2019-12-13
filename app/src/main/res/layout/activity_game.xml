@@ -9,41 +9,105 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/textView4"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="TextView" />
+            <TextView
+                android:id="@+id/user1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="user_1"
+                android:layout_gravity="center"/>
 
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="TextView" />
+            <Button
+                android:id="@+id/user1button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="准备"
+                android:onClick="user1status"/>
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/textView7"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/user2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="user_2"
+                android:layout_gravity="center"/>
+
+            <Button
+                android:id="@+id/user2button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="准备"
+                android:onClick="user2status"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/user3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="user_3"
+                android:layout_gravity="center"/>
+
+            <Button
+                android:id="@+id/user3button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="准备"
+                android:onClick="user3status"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/user4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="user_4"
+                android:layout_gravity="center"/>
+
+            <Button
+                android:id="@+id/user4button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="准备"
+                android:onClick="user4status"/>
+        </LinearLayout>
 
         <Button
             android:id="@+id/leavetable"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="离开"
             android:onClick="leaveTable"/>

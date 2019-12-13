@@ -6,7 +6,7 @@ public class GuessingGameTable {
     private int user_2;
     private int user_3;
     private int user_4;
-    private String last_check;
+    private int last_check;
     private int game_id;
 
     public int getId() {
@@ -49,11 +49,11 @@ public class GuessingGameTable {
         this.user_4 = user_4;
     }
 
-    public String getLast_check() {
+    public int getLast_check() {
         return last_check;
     }
 
-    public void setLast_check(String last_check) {
+    public void setLast_check(int last_check) {
         this.last_check = last_check;
     }
 
