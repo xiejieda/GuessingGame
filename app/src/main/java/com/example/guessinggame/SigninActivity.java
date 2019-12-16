@@ -24,6 +24,7 @@ import okhttp3.Response;
 
 public class SigninActivity extends AppCompatActivity {
     private final static String TAG=SigninActivity.class.getSimpleName();
+    private String ip="10.62.19.43";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +53,7 @@ public class SigninActivity extends AppCompatActivity {
         }
 
         OkHttpClient okHttpClient=new OkHttpClient();
-        String url= MessageFormat.format("http://10.62.16.247:8080/GuessingGameAPI/Signin?username={0}&password={1}",username,MD5Utils.md5(password));
+        String url= MessageFormat.format("http://{0}:8080/GuessingGameAPI/Signin?username={1}&password={2}",ip,username,MD5Utils.md5(password));
         final Request request=new Request.Builder().url(url).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
