@@ -134,11 +134,13 @@ public class LobbyActivity extends AppCompatActivity {
                             }
 
                             if (guessingGameTable.getLast_check()==1){
+                                ((TextView) view.findViewById(R.id.gamestatus)).setText("本桌已开始");
                                 user_1.setEnabled(false);
                                 user_2.setEnabled(false);
                                 user_3.setEnabled(false);
                                 user_4.setEnabled(false);
                             }else{
+                                ((TextView) view.findViewById(R.id.gamestatus)).setText("");
                                 user_1.setEnabled(true);
                                 user_2.setEnabled(true);
                                 user_3.setEnabled(true);

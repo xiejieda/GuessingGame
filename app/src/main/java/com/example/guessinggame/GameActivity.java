@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -36,6 +38,10 @@ public class GameActivity extends AppCompatActivity {
     private Button user3button;
     private Button user4button;
     private int lastcheck = 0;
+    private String tip;
+    private String answer;
+    private String ribble;
+    boolean stopThread=false;
     private String ip="10.62.19.43";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,7 +180,6 @@ public class GameActivity extends AppCompatActivity {
                         if (user_4_info!=null&&(int)(double)user_4_info.get("game_status")==1){
                             y++;
                         }
-                        System.out.println(x);
                         if (x==y&&x!=0){
                             lastcheck++;
                         }else{
@@ -186,6 +191,11 @@ public class GameActivity extends AppCompatActivity {
         });
 
         if (lastcheck==1){
+            System.out.println(lastcheck);
+            user1button.setEnabled(false);
+            user2button.setEnabled(false);
+            user3button.setEnabled(false);
+            user4button.setEnabled(false);
             String gameurl = MessageFormat.format("http://{0}:8080/GuessingGameAPI/GameStart?table_id={1}",ip,tableId);
             Request gamerequest = new Request.Builder().url(gameurl).build();
             okHttpClient.newCall(gamerequest).enqueue(new Callback() {
@@ -199,38 +209,85 @@ public class GameActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                     String content = response.body().string();
+                    System.out.println(content);
                 }
             });
 
-            String ribbleurl = MessageFormat.format("http://{0}:8080/GuessingGameAPI/GiveRibble",ip);
-            Request ribblerequest = new Request.Builder().url(ribbleurl).build();
-            okHttpClient.newCall(ribblerequest).enqueue(new Callback() {
+            final TextView time = (TextView) findViewById(R.id.time);
+            Thread thread=new Thread(new Runnable() {
                 @Override
-                public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                    Looper.prepare();
-                    Toast.makeText(getApplicationContext(),"Failed",Toast.LENGTH_SHORT).show();
-                    Looper.loop();
-                }
+                public void run() {
+                    for (int i = 0; i < 10 && !stopThread; i++){
+                        ((TextView) findViewById(R.id.round)).setText(i+1+"/10");
+                        int currentSecond = 10;
+                        try {
+                            TimeUnit.SECONDS.sleep(3);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        OkHttpClient okHttpClient1 = new OkHttpClient();
+                        String ribbleurl = MessageFormat.format("http://{0}:8080/GuessingGameAPI/GiveRibble?id={1}",ip,i);
+                        Request ribblerequest = new Request.Builder().url(ribbleurl).build();
+                        okHttpClient1.newCall(ribblerequest).enqueue(new Callback() {
+                            @Override
+                            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                Looper.prepare();
+                                Toast.makeText(getApplicationContext(),"Failed",Toast.LENGTH_SHORT).show();
+                                Looper.loop();
+                            }
 
-                @Override
-                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                    String content = response.body().string();
-                    Gson gson = new Gson();
-                    final GuessingGameRibble[] ribbles = gson.fromJson(content, GuessingGameRibble[].class);
+                            @Override
+                            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                String content = response.body().string();
+                                System.out.println(content);
+                                Gson gson = new Gson();
+                                final GuessingGameRibble ribbles = gson.fromJson(content, GuessingGameRibble.class);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        tip = (String) ribbles.getTip();
+                                        ribble = (String) ribbles.getRibble();
+                                        answer = (String) ribbles.getAnswer();
+                                        ((TextView) findViewById(R.id.ribble)).setText(ribble);
+                                    }
+                                });
 
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            for (int i = 0; i < ribbles.length; i++){
-                                GuessingGameRibble guessingGameRibble = ribbles[i];
-                                String tip = (String) guessingGameRibble.getTip();
-                                String ribble = (String) guessingGameRibble.getRibble();
-                                String answer = (String) guessingGameRibble.getAnswer();
-                                ((TextView) findViewById(R.id.ribble)).setText(ribble);
+                            }
+                        });
+
+                        while (currentSecond >= 0) {
+                            try {
+                                String second = String.format("%02d", currentSecond);
+                                time.setText(second);
+                                TimeUnit.SECONDS.sleep(1);
+
+                                if (currentSecond==5){
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ((TextView) findViewById(R.id.tip)).setText("提示："+tip);
+                                        }
+                                    });
+                                }else if (currentSecond==0){
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ((TextView) findViewById(R.id.tip)).setText("");
+                                        }
+                                    });
+
+                                }
+                                currentSecond--;
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
                             }
                         }
-                    });
+                    }
+
                 }
             });
+            thread.start();
+
 
         }else if (lastcheck==0){
             String gameurl = MessageFormat.format("http://{0}:8080/GuessingGameAPI/GameStop?table_id={1}",ip,tableId);
@@ -342,5 +399,11 @@ public class GameActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         handler.removeCallbacks(runnable);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopThread=true;
     }
 }
