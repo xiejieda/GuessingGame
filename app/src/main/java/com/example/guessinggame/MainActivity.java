@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
     private CheckBox rememberPass;
+    private String ip="10.62.19.43";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         OkHttpClient okHttpClient=new OkHttpClient();
-        String url= MessageFormat.format("http://10.62.16.247:8080/GuessingGameAPI/Login?username={0}&password={1}",username,MD5Utils.md5(password));
+        String url= MessageFormat.format("http://{0}:8080/GuessingGameAPI/Login?username={1}&password={2}",ip,username,MD5Utils.md5(password));
         final Request request=new Request.Builder().url(url).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override

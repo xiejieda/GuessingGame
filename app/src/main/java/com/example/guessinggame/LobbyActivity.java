@@ -33,6 +33,7 @@ import okhttp3.Response;
 public class LobbyActivity extends AppCompatActivity {
     private final static String TAG=MainActivity.class.getSimpleName();
     private int userId;
+    private String ip="10.62.19.43";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +44,7 @@ public class LobbyActivity extends AppCompatActivity {
 
     private void setupHall(){
         OkHttpClient okHttpClient = new OkHttpClient();
-        String url = "http://10.62.16.247:8080/GuessingGameAPI/Table";
+        String url = MessageFormat.format("http://{0}:8080/GuessingGameAPI/Table",ip);
         final Request request = new Request.Builder().url(url).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
@@ -157,7 +158,7 @@ public class LobbyActivity extends AppCompatActivity {
 
     private void gameLastCheck(int tableId){
         OkHttpClient okHttpClient = new OkHttpClient();
-        String gameurl = MessageFormat.format("http://10.62.16.247:8080/GuessingGameAPI/GameStop?table_id={0}",tableId);
+        String gameurl = MessageFormat.format("http://{0}:8080/GuessingGameAPI/GameStop?table_id={1}",ip,tableId);
         Request gamerequest = new Request.Builder().url(gameurl).build();
         okHttpClient.newCall(gamerequest).enqueue(new Callback() {
             @Override
@@ -179,7 +180,7 @@ public class LobbyActivity extends AppCompatActivity {
         intent.putExtra("tableId",guessingGameTable.getId());
         intent.putExtra("place",place);
         intent.putExtra("userId",userId);
-        String url =  MessageFormat.format("http://10.62.16.247:8080/GuessingGameAPI/JoinTable?id_table={0}&user={1}&id={2}",guessingGameTable.getId(),place,userId);
+        String url =  MessageFormat.format("http://{0}:8080/GuessingGameAPI/JoinTable?id_table={1}&user={2}&id={3}",ip,guessingGameTable.getId(),place,userId);
         OkHttpClient okHttpClient=new OkHttpClient();
         final Request request=new Request.Builder().url(url).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
@@ -223,7 +224,7 @@ public class LobbyActivity extends AppCompatActivity {
     }
     private void logout() {
         OkHttpClient okHttpClient = new OkHttpClient();
-        String url = MessageFormat.format("http://10.62.16.247:8080/GuessingGameAPI/Logout?id={0}",userId);
+        String url = MessageFormat.format("http://{0}:8080/GuessingGameAPI/Logout?id={1}",ip,userId);
         final Request request = new Request.Builder().url(url).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override

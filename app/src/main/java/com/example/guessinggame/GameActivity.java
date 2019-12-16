@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.guessinggame.bean.GuessingGameRibble;
 import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
@@ -34,7 +35,8 @@ public class GameActivity extends AppCompatActivity {
     private Button user2button;
     private Button user3button;
     private Button user4button;
-    private int lastcheck;
+    private int lastcheck = 0;
+    private String ip="10.62.19.43";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +60,7 @@ public class GameActivity extends AppCompatActivity {
         buider.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                String url =  MessageFormat.format("http://10.62.16.247:8080/GuessingGameAPI/LeaveTable?id_table={0}&user={1}&id={2}",tableId,place,userId);
+                String url =  MessageFormat.format("http://{0}:8080/GuessingGameAPI/LeaveTable?id_table={1}&user={2}&id={3}",ip,tableId,place,userId);
                 OkHttpClient okHttpClient=new OkHttpClient();
                 final Request request=new Request.Builder().url(url).build();
                 okHttpClient.newCall(request).enqueue(new Callback() {
@@ -80,7 +82,7 @@ public class GameActivity extends AppCompatActivity {
 
     private void setupgame(){
         OkHttpClient okHttpClient = new OkHttpClient();
-        String url = MessageFormat.format("http://10.62.16.247:8080/GuessingGameAPI/TableStatus?table_id={0}",tableId);
+        String url = MessageFormat.format("http://{0}:8080/GuessingGameAPI/TableStatus?table_id={1}",ip,tableId);
         final Request request = new Request.Builder().url(url).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
@@ -146,7 +148,6 @@ public class GameActivity extends AppCompatActivity {
                             ((TextView) findViewById(R.id.user4)).setText("暂无玩家加入");
                             user4button.setText("准备");
                         }
-                        lastcheck=0;
                         int x=0;
                         int y=0;
                         if (user_1_info!=null){
@@ -175,7 +176,7 @@ public class GameActivity extends AppCompatActivity {
                         }
                         System.out.println(x);
                         if (x==y&&x!=0){
-                            lastcheck=1;
+                            lastcheck++;
                         }else{
                             lastcheck=0;
                         }
@@ -185,7 +186,7 @@ public class GameActivity extends AppCompatActivity {
         });
 
         if (lastcheck==1){
-            String gameurl = MessageFormat.format("http://10.62.16.247:8080/GuessingGameAPI/GameStart?table_id={0}",tableId);
+            String gameurl = MessageFormat.format("http://{0}:8080/GuessingGameAPI/GameStart?table_id={1}",ip,tableId);
             Request gamerequest = new Request.Builder().url(gameurl).build();
             okHttpClient.newCall(gamerequest).enqueue(new Callback() {
                 @Override
@@ -200,8 +201,39 @@ public class GameActivity extends AppCompatActivity {
                     String content = response.body().string();
                 }
             });
-        }else {
-            String gameurl = MessageFormat.format("http://10.62.16.247:8080/GuessingGameAPI/GameStop?table_id={0}",tableId);
+
+            String ribbleurl = MessageFormat.format("http://{0}:8080/GuessingGameAPI/GiveRibble",ip);
+            Request ribblerequest = new Request.Builder().url(ribbleurl).build();
+            okHttpClient.newCall(ribblerequest).enqueue(new Callback() {
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    Looper.prepare();
+                    Toast.makeText(getApplicationContext(),"Failed",Toast.LENGTH_SHORT).show();
+                    Looper.loop();
+                }
+
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    String content = response.body().string();
+                    Gson gson = new Gson();
+                    final GuessingGameRibble[] ribbles = gson.fromJson(content, GuessingGameRibble[].class);
+
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            for (int i = 0; i < ribbles.length; i++){
+                                GuessingGameRibble guessingGameRibble = ribbles[i];
+                                String tip = (String) guessingGameRibble.getTip();
+                                String ribble = (String) guessingGameRibble.getRibble();
+                                String answer = (String) guessingGameRibble.getAnswer();
+                                ((TextView) findViewById(R.id.ribble)).setText(ribble);
+                            }
+                        }
+                    });
+                }
+            });
+
+        }else if (lastcheck==0){
+            String gameurl = MessageFormat.format("http://{0}:8080/GuessingGameAPI/GameStop?table_id={1}",ip,tableId);
             Request gamerequest = new Request.Builder().url(gameurl).build();
             okHttpClient.newCall(gamerequest).enqueue(new Callback() {
                 @Override
@@ -242,7 +274,7 @@ public class GameActivity extends AppCompatActivity {
 
     private void changeStatus(int i){
         OkHttpClient okHttpClient = new OkHttpClient();
-        String url = MessageFormat.format("http://10.62.16.247:8080/GuessingGameAPI/UserStatus?id={0}&status={1}",userId,i);
+        String url = MessageFormat.format("http://{0}:8080/GuessingGameAPI/UserStatus?id={1}&status={2}",ip,userId,i);
         Request request = new Request.Builder().url(url).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
