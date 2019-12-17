@@ -33,7 +33,7 @@ import okhttp3.Response;
 public class LobbyActivity extends AppCompatActivity {
     private final static String TAG=LobbyActivity.class.getSimpleName();
     private int userId;
-    private String ip="10.62.19.43";
+    private String ip="192.168.1.102";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -248,4 +248,5 @@ public class LobbyActivity extends AppCompatActivity {
         super.onDestroy();
         logout();
     }
+    
 }

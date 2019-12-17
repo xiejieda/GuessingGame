@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.speech.tts.TextToSpeech;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -42,7 +43,7 @@ public class GameActivity extends AppCompatActivity {
     private String answer;
     private String ribble;
     boolean stopThread=false;
-    private String ip="10.62.19.43";
+    private String ip="192.168.1.102";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +60,10 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void leaveTable(View view) {
+        exit();
+    }
+
+    private void exit(){
         AlertDialog.Builder buider= new AlertDialog.Builder(this);
         buider.setIcon(android.R.drawable.ic_dialog_info);
         buider.setTitle("提示");
@@ -83,7 +88,6 @@ public class GameActivity extends AppCompatActivity {
             }
         });
         buider.create().show();
-
     }
 
     private void setupgame(){
@@ -226,7 +230,7 @@ public class GameActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                         OkHttpClient okHttpClient1 = new OkHttpClient();
-                        String ribbleurl = MessageFormat.format("http://{0}:8080/GuessingGameAPI/GiveRibble?id={1}",ip,i);
+                        String ribbleurl = MessageFormat.format("http://{0}:8080/GuessingGameAPI/GiveRibble?id={1}&table_id={2}",ip,i,tableId);
                         Request ribblerequest = new Request.Builder().url(ribbleurl).build();
                         okHttpClient1.newCall(ribblerequest).enqueue(new Callback() {
                             @Override
@@ -405,5 +409,13 @@ public class GameActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         stopThread=true;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK){
+            exit();
+        }
+        return false;
     }
 }
