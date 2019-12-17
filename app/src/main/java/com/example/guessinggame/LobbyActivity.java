@@ -31,7 +31,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class LobbyActivity extends AppCompatActivity {
-    private final static String TAG=MainActivity.class.getSimpleName();
+    private final static String TAG=LobbyActivity.class.getSimpleName();
     private int userId;
     private String ip="10.62.19.43";
     @Override
@@ -57,6 +57,7 @@ public class LobbyActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NotNull final Call call, @NotNull Response response) throws IOException {
                 String content = response.body().string();
+                Log.i(TAG, "onResponse: " + content);
                 Gson gson = new Gson();
                 final GuessingGameTable[] tables = gson.fromJson(content, GuessingGameTable[].class);
 

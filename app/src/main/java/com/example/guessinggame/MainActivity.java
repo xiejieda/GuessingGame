@@ -61,60 +61,64 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        OkHttpClient okHttpClient=new OkHttpClient();
-        String url= MessageFormat.format("http://{0}:8080/GuessingGameAPI/Login?username={1}&password={2}",ip,username,MD5Utils.md5(password));
-        final Request request=new Request.Builder().url(url).build();
-        okHttpClient.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Looper.prepare();
-                Toast.makeText(getApplicationContext(),"Failed on Login",Toast.LENGTH_SHORT).show();
-                Looper.loop();
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                String content=response.body().string();
-                Log.i(TAG, "onResponse: "+content);
-                Gson gson = new Gson();
-                Map<String,Object> result = gson.fromJson(content, Map.class);
-                String status = (String) result.get("status");
-                if ("success".equals(status)){
-                    Map<String, Object> user = (Map<String, Object>) result.get("user");
-                    int id = (int)(double)user.get("id");
-                    SharedPreferences sp = getSharedPreferences("user", MODE_PRIVATE);
-                    SharedPreferences.Editor editoruser = sp.edit();
-                    editoruser.putInt("id",id);
-                    editoruser.putString("username",username);
-                    editoruser.commit();
-
-                    editor=pref.edit();
-                    if(rememberPass.isChecked()){
-                        editor.putBoolean("remember_password",true);
-                        editor.putString("username",username);
-                        editor.putString("password",password);
-                    }else {
-                        editor.clear();
+        Runnable runnable = new Runnable() {
+            public void run() {
+                OkHttpClient okHttpClient = new OkHttpClient();
+                String url = MessageFormat.format("http://{0}:8080/GuessingGameAPI/Login?username={1}&password={2}", ip, username, MD5Utils.md5(password));
+                final Request request = new Request.Builder().url(url).build();
+                okHttpClient.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                        Looper.prepare();
+                        Toast.makeText(getApplicationContext(), "Failed on Login", Toast.LENGTH_SHORT).show();
+                        Looper.loop();
                     }
-                    editor.apply();
-                    Looper.prepare();
-                    Toast.makeText(getApplicationContext(),"登录成功",Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getApplicationContext(), LobbyActivity.class);
-                    intent.putExtra("user_id",id);
-                    startActivity(intent);
-                    Looper.loop();
 
-                } else if ("failed_exist".equals(status)){
-                    Looper.prepare();
-                    Toast.makeText(getApplicationContext(),"该账号已登录",Toast.LENGTH_SHORT).show();
-                    Looper.loop();
-                } else{
-                    Looper.prepare();
-                    Toast.makeText(getApplicationContext(),"用户名或密码错误",Toast.LENGTH_SHORT).show();
-                    Looper.loop();
-                }
+                    @Override
+                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                        String content = response.body().string();
+                        Log.i(TAG, "onResponse: " + content);
+                        Gson gson = new Gson();
+                        Map<String, Object> result = gson.fromJson(content, Map.class);
+                        String status = (String) result.get("status");
+                        if ("success".equals(status)) {
+                            Map<String, Object> user = (Map<String, Object>) result.get("user");
+                            int id = (int) (double) user.get("id");
+                            SharedPreferences sp = getSharedPreferences("user", MODE_PRIVATE);
+                            SharedPreferences.Editor editoruser = sp.edit();
+                            editoruser.putInt("id", id);
+                            editoruser.putString("username", username);
+                            editoruser.commit();
+
+                            editor = pref.edit();
+                            if (rememberPass.isChecked()) {
+                                editor.putBoolean("remember_password", true);
+                                editor.putString("username", username);
+                                editor.putString("password", password);
+                            } else {
+                                editor.clear();
+                            }
+                            editor.apply();
+                            Looper.prepare();
+                            Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getApplicationContext(), LobbyActivity.class);
+                            intent.putExtra("user_id", id);
+                            startActivity(intent);
+                            Looper.loop();
+
+                        } else if ("failed_exist".equals(status)) {
+                            Looper.prepare();
+                            Toast.makeText(getApplicationContext(), "该账号已登录", Toast.LENGTH_SHORT).show();
+                            Looper.loop();
+                        } else {
+                            Looper.prepare();
+                            Toast.makeText(getApplicationContext(), "用户名或密码错误", Toast.LENGTH_SHORT).show();
+                            Looper.loop();
+                        }
+                    }
+                });
             }
-        });
+        };new Thread(runnable).start();
     }
 
     public void doSignin(View view) {
