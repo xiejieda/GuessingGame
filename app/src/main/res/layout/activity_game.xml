@@ -48,7 +48,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="1" />
+                    android:text="0.0" />
             </LinearLayout>
 
             <LinearLayout
@@ -80,7 +80,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="2" />
+                    android:text="0.0" />
             </LinearLayout>
 
             <LinearLayout
@@ -112,7 +112,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="3" />
+                    android:text="0.0" />
             </LinearLayout>
 
             <LinearLayout
@@ -144,7 +144,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="4" />
+                    android:text="0.0" />
             </LinearLayout>
 
             <Button
@@ -228,7 +228,8 @@
                 android:layout_height="match_parent"
                 android:layout_margin="3dp"
                 android:layout_weight="2"
-                android:text="发送" />
+                android:text="发送"
+                android:onClick="doChat"/>
         </LinearLayout>
     </LinearLayout>
 
