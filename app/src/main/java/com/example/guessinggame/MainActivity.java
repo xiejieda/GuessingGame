@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
     private CheckBox rememberPass;
-    private String ip="192.168.1.102";
+    private String ip="10.62.19.43";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getApplicationContext(), LobbyActivity.class);
                             intent.putExtra("user_id", id);
+                            intent.putExtra("username", username);
                             startActivity(intent);
                             Looper.loop();
 
