@@ -54,7 +54,7 @@ public class GameActivity extends AppCompatActivity {
     private RecyclerView rv;
     private int length=0;
     private int grade=0;
-    private String ip = "10.62.19.43";
+    private String ip = "192.168.43.30";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -240,14 +240,19 @@ public class GameActivity extends AppCompatActivity {
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    for (int i = 0; i < 10 && !stopThread; i++) {
-                        ((TextView) findViewById(R.id.round)).setText(i + 1 + "/10");
-                        int currentSecond = 10;
-                        try {
-                            TimeUnit.SECONDS.sleep(3);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                    for (int i = 0; i < 1 && !stopThread; i++) {
+
+                        if (i==0){
+                            ((TextView) findViewById(R.id.ribble)).setText("游戏即将开始");
+                            try {
+                                TimeUnit.SECONDS.sleep(3);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         }
+
+                        int currentSecond = 60;
+                        ((TextView) findViewById(R.id.round)).setText(i + 1 + "/10");
                         OkHttpClient okHttpClient1 = new OkHttpClient();
                         String ribbleurl = MessageFormat.format("http://{0}:8080/GuessingGameAPI/GiveRibble?id={1}&table_id={2}", ip, i, tableId);
                         Request ribblerequest = new Request.Builder().url(ribbleurl).build();
@@ -282,8 +287,7 @@ public class GameActivity extends AppCompatActivity {
                                 String second = String.format("%02d", currentSecond);
                                 time.setText(second);
                                 TimeUnit.SECONDS.sleep(1);
-
-                                if (currentSecond == 5) {
+                                if (currentSecond == 30) {
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
@@ -304,7 +308,57 @@ public class GameActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                         }
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ((TextView) findViewById(R.id.ribble)).setText("正确答案：" + answer);
+                            }
+                        });
+                        try {
+                            TimeUnit.SECONDS.sleep(3);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
+                    double user1_grade = Double.valueOf(((TextView) findViewById(R.id.user1_grade)).getText().toString());
+                    double user2_grade = Double.valueOf(((TextView) findViewById(R.id.user2_grade)).getText().toString());
+                    double user3_grade = Double.valueOf(((TextView) findViewById(R.id.user3_grade)).getText().toString());
+                    double user4_grade = Double.valueOf(((TextView) findViewById(R.id.user4_grade)).getText().toString());
+                    String winner = "没有人";
+                    if (user1_grade>user2_grade&&user1_grade>user3_grade&&user1_grade>user4_grade){
+                        winner = ((TextView) findViewById(R.id.user1)).getText().toString();
+                    }else if (user2_grade>user1_grade&&user2_grade>user3_grade&&user2_grade>user4_grade){
+                        winner = ((TextView) findViewById(R.id.user2)).getText().toString();
+                    }else if (user3_grade>user1_grade&&user3_grade>user2_grade&&user3_grade>user4_grade){
+                        winner = ((TextView) findViewById(R.id.user3)).getText().toString();
+                    }else if (user4_grade>user1_grade&&user4_grade>user2_grade&&user4_grade>user3_grade){
+                        winner = ((TextView) findViewById(R.id.user4)).getText().toString();
+                    }
+
+
+                    Looper.prepare();
+                    selfbutton(place);
+                    Toast.makeText(getApplicationContext(), winner+"获得胜利！", Toast.LENGTH_SHORT).show();
+
+                    changeStatus(0);
+                    OkHttpClient okHttpClient = new OkHttpClient();
+                    String gameurl = MessageFormat.format("http://{0}:8080/GuessingGameAPI/GameStop?table_id={1}", ip, tableId);
+                    Request gamerequest = new Request.Builder().url(gameurl).build();
+                    okHttpClient.newCall(gamerequest).enqueue(new Callback() {
+                        @Override
+                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                            Looper.prepare();
+                            Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+                            Looper.loop();
+                        }
+
+                        @Override
+                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                            String content = response.body().string();
+                        }
+                    });
+                    Looper.loop();
+
 
                 }
             });
@@ -333,18 +387,22 @@ public class GameActivity extends AppCompatActivity {
     private void selfbutton(int place) {
 
         if (place == 1) {
+            user1button.setEnabled(true);
             user2button.setEnabled(false);
             user3button.setEnabled(false);
             user4button.setEnabled(false);
         } else if (place == 2) {
+            user2button.setEnabled(true);
             user1button.setEnabled(false);
             user3button.setEnabled(false);
             user4button.setEnabled(false);
         } else if (place == 3) {
+            user3button.setEnabled(true);
             user1button.setEnabled(false);
             user2button.setEnabled(false);
             user4button.setEnabled(false);
         } else {
+            user4button.setEnabled(true);
             user1button.setEnabled(false);
             user2button.setEnabled(false);
             user3button.setEnabled(false);
