@@ -31,28 +31,29 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class LobbyActivity extends AppCompatActivity {
-    private final static String TAG=LobbyActivity.class.getSimpleName();
+    private final static String TAG = LobbyActivity.class.getSimpleName();
     private int userId;
     private String username;
-    private String ip="192.168.1.103";
+    private String ip = "192.168.1.103";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lobby);
-        this.userId = getIntent().getIntExtra("user_id",0);
+        this.userId = getIntent().getIntExtra("user_id", 0);
         this.username = getIntent().getStringExtra("username");
         setupHall();
     }
 
-    private void setupHall(){
+    private void setupHall() {
         OkHttpClient okHttpClient = new OkHttpClient();
-        String url = MessageFormat.format("http://{0}:8080/GuessingGameAPI/Table",ip);
+        String url = MessageFormat.format("http://{0}:8080/GuessingGameAPI/Table", ip);
         final Request request = new Request.Builder().url(url).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 Looper.prepare();
-                Toast.makeText(getApplicationContext(),"Error in get table",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Error in get table", Toast.LENGTH_SHORT).show();
                 Looper.loop();
             }
 
@@ -80,9 +81,9 @@ public class LobbyActivity extends AppCompatActivity {
                             Button user_2 = (Button) view.findViewById(R.id.user_2);
                             Button user_3 = (Button) view.findViewById(R.id.user_3);
                             Button user_4 = (Button) view.findViewById(R.id.user_4);
-                            if (guessingGameTable.getUser_1()==0&&guessingGameTable.getUser_2()==0&&guessingGameTable.getUser_3()==0&&guessingGameTable.getUser_4()==0){
-                                gameLastCheck(i+1);
-                                deleteChat(i+1);
+                            if (guessingGameTable.getUser_1() == 0 && guessingGameTable.getUser_2() == 0 && guessingGameTable.getUser_3() == 0 && guessingGameTable.getUser_4() == 0) {
+                                gameLastCheck(i + 1);
+                                deleteChat(i + 1);
                             }
                             if (guessingGameTable.getUser_1() > 0) {
                                 user_1.setBackground(ActivityCompat.getDrawable(getApplicationContext(), R.mipmap.people));
@@ -137,13 +138,13 @@ public class LobbyActivity extends AppCompatActivity {
                                 });
                             }
 
-                            if (guessingGameTable.getLast_check()==1){
+                            if (guessingGameTable.getLast_check() == 1) {
                                 ((TextView) view.findViewById(R.id.gamestatus)).setText("本桌已开始");
                                 user_1.setEnabled(false);
                                 user_2.setEnabled(false);
                                 user_3.setEnabled(false);
                                 user_4.setEnabled(false);
-                            }else{
+                            } else {
                                 ((TextView) view.findViewById(R.id.gamestatus)).setText("");
                                 user_1.setEnabled(true);
                                 user_2.setEnabled(true);
@@ -151,8 +152,8 @@ public class LobbyActivity extends AppCompatActivity {
                                 user_4.setEnabled(true);
                             }
 
-                            int table_id = i+1;
-                            ((TextView) view.findViewById(R.id.table_id)).setText("_"+table_id+"_");
+                            int table_id = i + 1;
+                            ((TextView) view.findViewById(R.id.table_id)).setText("_" + table_id + "_");
                             oneLine.addView(view);
                         }
                     }
@@ -162,15 +163,15 @@ public class LobbyActivity extends AppCompatActivity {
         });
     }
 
-    private void gameLastCheck(int tableId){
+    private void gameLastCheck(int tableId) {
         OkHttpClient okHttpClient = new OkHttpClient();
-        String gameurl = MessageFormat.format("http://{0}:8080/GuessingGameAPI/GameStop?table_id={1}",ip,tableId);
+        String gameurl = MessageFormat.format("http://{0}:8080/GuessingGameAPI/GameStop?table_id={1}", ip, tableId);
         Request gamerequest = new Request.Builder().url(gameurl).build();
         okHttpClient.newCall(gamerequest).enqueue(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 Looper.prepare();
-                Toast.makeText(getApplicationContext(),"Failed",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
                 Looper.loop();
             }
 
@@ -181,15 +182,15 @@ public class LobbyActivity extends AppCompatActivity {
         });
     }
 
-    private void deleteChat(int tableId){
+    private void deleteChat(int tableId) {
         OkHttpClient okHttpClient = new OkHttpClient();
-        String gameurl = MessageFormat.format("http://{0}:8080/GuessingGameAPI/DeleteChat?table_id={1}",ip,tableId);
+        String gameurl = MessageFormat.format("http://{0}:8080/GuessingGameAPI/DeleteChat?table_id={1}", ip, tableId);
         Request gamerequest = new Request.Builder().url(gameurl).build();
         okHttpClient.newCall(gamerequest).enqueue(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 Looper.prepare();
-                Toast.makeText(getApplicationContext(),"Failed",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
                 Looper.loop();
             }
 
@@ -200,15 +201,15 @@ public class LobbyActivity extends AppCompatActivity {
         });
     }
 
-    private void joinTable(int place,GuessingGameTable guessingGameTable){
-        final Intent intent = new Intent(getApplicationContext(),GameActivity.class);
-        intent.putExtra("tableId",guessingGameTable.getId());
-        intent.putExtra("place",place);
-        intent.putExtra("userId",userId);
-        intent.putExtra("username",username);
-        String url =  MessageFormat.format("http://{0}:8080/GuessingGameAPI/JoinTable?id_table={1}&user={2}&id={3}",ip,guessingGameTable.getId(),place,userId);
-        OkHttpClient okHttpClient=new OkHttpClient();
-        final Request request=new Request.Builder().url(url).build();
+    private void joinTable(int place, GuessingGameTable guessingGameTable) {
+        final Intent intent = new Intent(getApplicationContext(), GameActivity.class);
+        intent.putExtra("tableId", guessingGameTable.getId());
+        intent.putExtra("place", place);
+        intent.putExtra("userId", userId);
+        intent.putExtra("username", username);
+        String url = MessageFormat.format("http://{0}:8080/GuessingGameAPI/JoinTable?id_table={1}&user={2}&id={3}", ip, guessingGameTable.getId(), place, userId);
+        OkHttpClient okHttpClient = new OkHttpClient();
+        final Request request = new Request.Builder().url(url).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -217,18 +218,18 @@ public class LobbyActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                String content=response.body().string();
-                Log.i(TAG, "onResponse: "+content);
+                String content = response.body().string();
+                Log.i(TAG, "onResponse: " + content);
                 startActivity(intent);
             }
         });
     }
 
     private Handler handler = new Handler();
-    private Runnable runnable = new Runnable(){
-        public void run(){
+    private Runnable runnable = new Runnable() {
+        public void run() {
             setupHall();
-            handler.postDelayed(this,1000);
+            handler.postDelayed(this, 1000);
         }
     };
 
@@ -236,7 +237,7 @@ public class LobbyActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         handler.removeCallbacks(runnable);
-        handler.postDelayed(runnable,1000);
+        handler.postDelayed(runnable, 1000);
     }
 
     @Override
@@ -248,15 +249,16 @@ public class LobbyActivity extends AppCompatActivity {
     public void logout(View view) {
         logout();
     }
+
     private void logout() {
         OkHttpClient okHttpClient = new OkHttpClient();
-        String url = MessageFormat.format("http://{0}:8080/GuessingGameAPI/Logout?id={1}",ip,userId);
+        String url = MessageFormat.format("http://{0}:8080/GuessingGameAPI/Logout?id={1}", ip, userId);
         final Request request = new Request.Builder().url(url).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 Looper.prepare();
-                Toast.makeText(getApplicationContext(),"Failed on Logout",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Failed on Logout", Toast.LENGTH_SHORT).show();
                 Looper.loop();
             }
 
@@ -266,10 +268,11 @@ public class LobbyActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         logout();
     }
-    
+
 }

@@ -4,20 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LobbyActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".LobbyActivity">
 
     <Button
         android:id="@+id/out"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="退出登录"
-        android:onClick="logout"/>
+        android:onClick="logout"
+        android:text="退出登录" />
 
     <LinearLayout
+        android:id="@+id/hall"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:id="@+id/hall"></LinearLayout>
+        android:orientation="vertical"></LinearLayout>
 
 </LinearLayout>

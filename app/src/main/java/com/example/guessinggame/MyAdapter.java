@@ -36,13 +36,13 @@ public class MyAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder holder = null;
-        switch (viewType){
+        switch (viewType) {
             case TYPEONE:
-                View view = LayoutInflater.from(context).inflate(R.layout.item,parent,false);
+                View view = LayoutInflater.from(context).inflate(R.layout.item, parent, false);
                 holder = new OneViewHolder(view);
                 break;
             case TYPETWO:
-                View view1 = LayoutInflater.from(context).inflate(R.layout.item2,parent,false);
+                View view1 = LayoutInflater.from(context).inflate(R.layout.item2, parent, false);
                 holder = new TwoViewHolder(view1);
                 break;
         }
@@ -52,7 +52,7 @@ public class MyAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         int itemViewType = getItemViewType(position);
-        switch (itemViewType){
+        switch (itemViewType) {
             case TYPEONE:
                 OneViewHolder oneViewHolder = (OneViewHolder) holder;
                 oneViewHolder.tv1.setText(data.get(position).getData());
@@ -70,12 +70,13 @@ public class MyAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return  data != null && data.size() > 0 ? data.size() : 0;
+        return data != null && data.size() > 0 ? data.size() : 0;
     }
 
-    class OneViewHolder extends RecyclerView.ViewHolder{
+    class OneViewHolder extends RecyclerView.ViewHolder {
         private TextView tv1;
-        private TextView name1,time1;
+        private TextView name1, time1;
+
         public OneViewHolder(View itemView) {
             super(itemView);
             tv1 = (TextView) itemView.findViewById(R.id.tv);
@@ -84,9 +85,10 @@ public class MyAdapter extends RecyclerView.Adapter {
         }
     }
 
-    class TwoViewHolder extends RecyclerView.ViewHolder{
+    class TwoViewHolder extends RecyclerView.ViewHolder {
         private TextView tv2;
-        private TextView name2,time2;
+        private TextView name2, time2;
+
         public TwoViewHolder(View itemView) {
             super(itemView);
             tv2 = (TextView) itemView.findViewById(R.id.tv2);

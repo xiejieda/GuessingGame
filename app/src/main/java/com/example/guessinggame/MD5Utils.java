@@ -10,12 +10,12 @@ public class MD5Utils {
             digest = MessageDigest.getInstance("md5");
             byte[] result = digest.digest(text.getBytes());
             StringBuffer sb = new StringBuffer();
-            for (byte b : result){
+            for (byte b : result) {
                 int number = b & 0xff;
                 String hex = Integer.toHexString(number);
-                if (hex.length() == 1){
-                    sb.append("0"+hex);
-                }else {
+                if (hex.length() == 1) {
+                    sb.append("0" + hex);
+                } else {
                     sb.append(hex);
                 }
             }

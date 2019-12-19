@@ -2,13 +2,13 @@ package com.example.guessinggame.bean;
 
 public class MyBean {
     private String data;
-    private String time,name;
+    private String time, name;
     private int number;
 
     public MyBean() {
     }
 
-    public MyBean(String data, int number,String time,String name) {
+    public MyBean(String data, int number, String time, String name) {
         this.data = data;
         this.number = number;
         this.name = name;

@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
@@ -27,23 +28,24 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
-    private final static String TAG=MainActivity.class.getSimpleName();
+    private final static String TAG = MainActivity.class.getSimpleName();
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
     private CheckBox rememberPass;
-    private String ip="192.168.1.103";
+    private String ip = "192.168.1.103";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        EditText usernameEdit=((EditText)findViewById(R.id.username));
-        EditText passwordEdit=((EditText)findViewById(R.id.password));
+        EditText usernameEdit = ((EditText) findViewById(R.id.username));
+        EditText passwordEdit = ((EditText) findViewById(R.id.password));
         pref = PreferenceManager.getDefaultSharedPreferences(this);
-        rememberPass=((CheckBox)findViewById(R.id.remember_pass));
-        boolean isRemenber=pref.getBoolean("remember_password",false);
-        if(isRemenber){
-            String username=pref.getString("username","");
-            String password=pref.getString("password","");
+        rememberPass = ((CheckBox) findViewById(R.id.remember_pass));
+        boolean isRemenber = pref.getBoolean("remember_password", false);
+        if (isRemenber) {
+            String username = pref.getString("username", "");
+            String password = pref.getString("password", "");
             usernameEdit.setText(username);
             passwordEdit.setText(password);
             rememberPass.setChecked(true);
@@ -51,13 +53,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void doLogin(View view) {
-        final String username=((EditText)findViewById(R.id.username)).getText().toString();
-        final String password=((EditText)findViewById(R.id.password)).getText().toString();
-        if(username==null||username.isEmpty()) {
-            Toast.makeText(getApplicationContext(),"用户名不能为空",Toast.LENGTH_SHORT).show();
+        final String username = ((EditText) findViewById(R.id.username)).getText().toString();
+        final String password = ((EditText) findViewById(R.id.password)).getText().toString();
+        if (username == null || username.isEmpty()) {
+            Toast.makeText(getApplicationContext(), "用户名不能为空", Toast.LENGTH_SHORT).show();
             return;
-        }else if (password==null||password.isEmpty()) {
-            Toast.makeText(getApplicationContext(),"密码不能为空",Toast.LENGTH_SHORT).show();
+        } else if (password == null || password.isEmpty()) {
+            Toast.makeText(getApplicationContext(), "密码不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -119,7 +121,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
-        };new Thread(runnable).start();
+        };
+        new Thread(runnable).start();
     }
 
     public void doSignin(View view) {
