@@ -321,7 +321,7 @@ public class GameActivity extends AppCompatActivity {
                                             ((TextView) findViewById(R.id.tip)).setText("提示：" + tip);
                                         }
                                     });
-                                } else if (currentSecond == 0) {
+                                } else if (currentSecond == 60) {
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
