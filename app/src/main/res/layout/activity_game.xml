@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@mipmap/background"
     tools:context=".GameActivity">
 
     <LinearLayout
@@ -22,7 +23,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:orientation="vertical">
 
                 <TextView
@@ -30,6 +31,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_gravity="center"
+                    android:textSize="20sp"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="user_1" />
@@ -38,6 +40,7 @@
                     android:id="@+id/user1button"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    android:background="@drawable/shape"
                     android:layout_weight="1"
                     android:onClick="user1status"
                     android:text="准备" />
@@ -46,6 +49,7 @@
                     android:id="@+id/user1_grade"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    android:textSize="20sp"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="0.0" />
@@ -54,7 +58,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:orientation="vertical">
 
                 <TextView
@@ -62,6 +66,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_gravity="center"
+                    android:textSize="20sp"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="user_2" />
@@ -72,6 +77,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:onClick="user2status"
+                    android:background="@drawable/shape"
                     android:text="准备" />
 
                 <TextView
@@ -79,6 +85,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
+                    android:textSize="20sp"
                     android:gravity="center"
                     android:text="0.0" />
             </LinearLayout>
@@ -86,7 +93,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:orientation="vertical">
 
                 <TextView
@@ -94,6 +101,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_gravity="center"
+                    android:textSize="20sp"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="user_3" />
@@ -103,6 +111,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
+                    android:background="@drawable/shape"
                     android:onClick="user3status"
                     android:text="准备" />
 
@@ -111,6 +120,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
+                    android:textSize="20sp"
                     android:gravity="center"
                     android:text="0.0" />
             </LinearLayout>
@@ -118,7 +128,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:orientation="vertical">
 
                 <TextView
@@ -126,6 +136,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_gravity="center"
+                    android:textSize="20sp"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="user_4" />
@@ -135,6 +146,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
+                    android:background="@drawable/shape"
                     android:onClick="user4status"
                     android:text="准备" />
 
@@ -143,6 +155,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
+                    android:textSize="20sp"
                     android:gravity="center"
                     android:text="0.0" />
             </LinearLayout>
@@ -150,13 +163,20 @@
             <Button
                 android:id="@+id/leavetable"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="1"
                 android:onClick="leaveTable"
-                android:text="离开" />
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@mipmap/left"
+                android:text="" />
 
         </LinearLayout>
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#66CCFF"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -179,23 +199,34 @@
                 android:gravity="center"
                 android:text="" />
         </LinearLayout>
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#66CCFF"/>
         <TextView
             android:id="@+id/tip"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.5"
             android:gravity="center" />
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#66CCFF"/>
         <TextView
             android:id="@+id/ribble"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2"
+            android:textSize="25sp"
+            android:textColor="#3A1D1D"
             android:gravity="center" />
     </LinearLayout>
 
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#000000"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"

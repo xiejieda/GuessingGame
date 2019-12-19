@@ -5,7 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center"
+    android:background="@mipmap/background"
     tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+
+        app:srcCompat="@mipmap/title" />
 
     <EditText
         android:id="@+id/username"
@@ -14,6 +23,7 @@
         android:layout_margin="20dp"
         android:ems="10"
         android:hint="Username"
+        android:background="@drawable/shape"
         android:inputType="textPersonName" />
 
     <EditText
@@ -22,6 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:ems="10"
+        android:background="@drawable/shape"
         android:hint="Password"
         android:inputType="textPassword" />
 
@@ -38,6 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:onClick="doLogin"
+        android:background="@drawable/shape"
         android:text="Login"
         android:textSize="20sp" />
 

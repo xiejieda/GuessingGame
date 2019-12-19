@@ -24,7 +24,7 @@ import okhttp3.Response;
 
 public class SigninActivity extends AppCompatActivity {
     private final static String TAG = SigninActivity.class.getSimpleName();
-    private String ip = "192.168.1.103";
+    private String ip = "192.168.43.30";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

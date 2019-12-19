@@ -59,7 +59,7 @@ public class GameActivity extends AppCompatActivity {
     private ArrayList<Double> previous;
     private int gradestatus0 = 0;
     private int gradestatus1 = 0;
-    private String ip = "192.168.1.103";
+    private String ip = "192.168.43.30";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
