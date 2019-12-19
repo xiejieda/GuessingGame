@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
     private CheckBox rememberPass;
-    private String ip="192.168.43.30";
+    private String ip="192.168.1.103";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

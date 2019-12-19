@@ -54,7 +54,12 @@ public class GameActivity extends AppCompatActivity {
     private RecyclerView rv;
     private int length=0;
     private int grade=0;
-    private String ip = "192.168.43.30";
+    private static final int GAME_TIME = 60;
+    private ArrayList<Double> current;
+    private ArrayList<Double> previous;
+    private int gradestatus0=0;
+    private int gradestatus1=0;
+    private String ip = "192.168.1.103";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +75,8 @@ public class GameActivity extends AppCompatActivity {
         user4button = (Button) findViewById(R.id.user4button);
         time = (TextView) findViewById(R.id.time);
         rv = ((RecyclerView) findViewById(R.id.rv));
+        current = new ArrayList<>();
+        previous = new ArrayList<>();
         selfbutton(place);
         setupgame();
     }
@@ -106,6 +113,10 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void setupgame() {
+        for (int j=0;j<current.size();j++){
+            previous.set(j,current.get(j));
+        }
+
         OkHttpClient okHttpClient = new OkHttpClient();
         String url = MessageFormat.format("http://{0}:8080/GuessingGameAPI/TableStatus?table_id={1}", ip, tableId);
         final Request request = new Request.Builder().url(url).build();
@@ -119,8 +130,7 @@ public class GameActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                String content = response.body().string();
-                System.out.println(content);
+                final String content = response.body().string();
                 Gson gson = new Gson();
                 final Map<String, Object> result = gson.fromJson(content, Map.class);
                 runOnUiThread(new Runnable() {
@@ -130,9 +140,11 @@ public class GameActivity extends AppCompatActivity {
                         Map<String, Object> user_2_info = (Map<String, Object>) result.get("user_2_info");
                         Map<String, Object> user_3_info = (Map<String, Object>) result.get("user_3_info");
                         Map<String, Object> user_4_info = (Map<String, Object>) result.get("user_4_info");
+                        current = new ArrayList<>();
                         if (user_1_info != null) {
                             ((TextView) findViewById(R.id.user1)).setText(user_1_info.get("username").toString());
                             ((TextView) findViewById(R.id.user1_grade)).setText(user_1_info.get("game_grade").toString());
+                            current.add(Double.valueOf(((TextView) findViewById(R.id.user1_grade)).getText().toString()));
                             if ((int) (double) user_1_info.get("game_status") == 1) {
                                 user1button.setText("取消准备");
                             } else {
@@ -145,6 +157,7 @@ public class GameActivity extends AppCompatActivity {
                         if (user_2_info != null) {
                             ((TextView) findViewById(R.id.user2)).setText(user_2_info.get("username").toString());
                             ((TextView) findViewById(R.id.user2_grade)).setText(user_2_info.get("game_grade").toString());
+                            current.add(Double.valueOf(((TextView) findViewById(R.id.user2_grade)).getText().toString()));
                             if ((int) (double) user_2_info.get("game_status") == 1) {
                                 user2button.setText("取消准备");
                             } else {
@@ -157,6 +170,7 @@ public class GameActivity extends AppCompatActivity {
                         if (user_3_info != null) {
                             ((TextView) findViewById(R.id.user3)).setText(user_3_info.get("username").toString());
                             ((TextView) findViewById(R.id.user3_grade)).setText(user_3_info.get("game_grade").toString());
+                            current.add(Double.valueOf(((TextView) findViewById(R.id.user3_grade)).getText().toString()));
                             if ((int) (double) user_3_info.get("game_status") == 1) {
                                 user3button.setText("取消准备");
                             } else {
@@ -169,6 +183,7 @@ public class GameActivity extends AppCompatActivity {
                         if (user_4_info != null) {
                             ((TextView) findViewById(R.id.user4)).setText(user_4_info.get("username").toString());
                             ((TextView) findViewById(R.id.user4_grade)).setText(user_4_info.get("game_grade").toString());
+                            current.add(Double.valueOf(((TextView) findViewById(R.id.user4_grade)).getText().toString()));
                             if ((int) (double) user_4_info.get("game_status") == 1) {
                                 user4button.setText("取消准备");
                             } else {
@@ -177,6 +192,18 @@ public class GameActivity extends AppCompatActivity {
                         } else {
                             ((TextView) findViewById(R.id.user4)).setText("暂无玩家加入");
                             user4button.setText("准备");
+                        }
+                        gradestatus1=current.size();
+                        for (int n = 0;n<current.size();n++){
+                            if (previous.size()==n){
+                                previous.add(current.get(n));
+                            }
+                        }
+
+                        for (int n = 0;n<current.size();n++){
+                            if (!current.get(n).equals(previous.get(n))){
+                                gradestatus0++;
+                            }
                         }
                         int x = 0;
                         int y = 0;
@@ -221,7 +248,7 @@ public class GameActivity extends AppCompatActivity {
             user3button.setEnabled(false);
             user4button.setEnabled(false);
             String gameurl = MessageFormat.format("http://{0}:8080/GuessingGameAPI/GameStart?table_id={1}", ip, tableId);
-            Request gamerequest = new Request.Builder().url(gameurl).build();
+            final Request gamerequest = new Request.Builder().url(gameurl).build();
             okHttpClient.newCall(gamerequest).enqueue(new Callback() {
                 @Override
                 public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -240,7 +267,7 @@ public class GameActivity extends AppCompatActivity {
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    for (int i = 0; i < 1 && !stopThread; i++) {
+                    for (int i = 0; i < 10 && !stopThread; i++) {
 
                         if (i==0){
                             ((TextView) findViewById(R.id.ribble)).setText("游戏即将开始");
@@ -251,7 +278,7 @@ public class GameActivity extends AppCompatActivity {
                             }
                         }
 
-                        int currentSecond = 60;
+                        int currentSecond = GAME_TIME;
                         ((TextView) findViewById(R.id.round)).setText(i + 1 + "/10");
                         OkHttpClient okHttpClient1 = new OkHttpClient();
                         String ribbleurl = MessageFormat.format("http://{0}:8080/GuessingGameAPI/GiveRibble?id={1}&table_id={2}", ip, i, tableId);
@@ -301,7 +328,10 @@ public class GameActivity extends AppCompatActivity {
                                             ((TextView) findViewById(R.id.tip)).setText("");
                                         }
                                     });
-
+                                }
+                                if (gradestatus0==gradestatus1){
+                                    gradestatus0=0;
+                                    break;
                                 }
                                 currentSecond--;
                             } catch (InterruptedException e) {
@@ -314,6 +344,13 @@ public class GameActivity extends AppCompatActivity {
                                 ((TextView) findViewById(R.id.ribble)).setText("正确答案：" + answer);
                             }
                         });
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ((Button) findViewById(R.id.btn)).setEnabled(true);
+                            }
+                        });
+
                         try {
                             TimeUnit.SECONDS.sleep(3);
                         } catch (InterruptedException e) {
@@ -337,7 +374,13 @@ public class GameActivity extends AppCompatActivity {
 
 
                     Looper.prepare();
-                    selfbutton(place);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            selfbutton(place);
+                        }
+                    });
+
                     Toast.makeText(getApplicationContext(), winner+"获得胜利！", Toast.LENGTH_SHORT).show();
 
                     changeStatus(0);
@@ -549,6 +592,7 @@ public class GameActivity extends AppCompatActivity {
         String systime = dateFormat.format(date);
 
         if (answer.equals(data)){
+            ((Button) findViewById(R.id.btn)).setEnabled(false);
             grade = grade + Integer.parseInt(time.getText().toString());
             data="***";
             OkHttpClient okHttpClient = new OkHttpClient();
