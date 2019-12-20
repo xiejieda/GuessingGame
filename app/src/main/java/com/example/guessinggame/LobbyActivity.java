@@ -34,7 +34,7 @@ public class LobbyActivity extends AppCompatActivity {
     private final static String TAG = LobbyActivity.class.getSimpleName();
     private int userId;
     private String username;
-    private String ip = "192.168.43.30";
+    private String ip = "10.62.19.44";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

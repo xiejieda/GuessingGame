@@ -59,7 +59,7 @@ public class GameActivity extends AppCompatActivity {
     private ArrayList<Double> previous;
     private int gradestatus0 = 0;
     private int gradestatus1 = 0;
-    private String ip = "192.168.43.30";
+    private String ip = "10.62.19.44";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -263,7 +263,7 @@ public class GameActivity extends AppCompatActivity {
                 }
             });
 
-
+            stopThread=false;
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -519,11 +519,6 @@ public class GameActivity extends AppCompatActivity {
         handler.postDelayed(runnable, 1000);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        handler.removeCallbacks(runnable);
-    }
 
     @Override
     protected void onDestroy() {
