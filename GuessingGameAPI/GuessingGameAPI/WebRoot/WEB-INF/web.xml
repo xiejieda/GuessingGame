@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+  <display-name></display-name>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>AdminSigninController</servlet-name>
+    <servlet-class>controller.AdminSigninController</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>AdminLoginController</servlet-name>
+    <servlet-class>controller.AdminLoginController</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>GuessingGameTable</servlet-name>
+    <servlet-class>controller.GuessingGameTable</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>JoinTable</servlet-name>
+    <servlet-class>controller.JoinTable</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>LeaveTable</servlet-name>
+    <servlet-class>controller.LeaveTable</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>AdminLogoutController</servlet-name>
+    <servlet-class>controller.AdminLogoutController</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>TableStatus</servlet-name>
+    <servlet-class>controller.TableStatus</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UserStatus</servlet-name>
+    <servlet-class>controller.UserStatus</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>GameStart</servlet-name>
+    <servlet-class>controller.GameStart</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>GameStop</servlet-name>
+    <servlet-class>controller.GameStop</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>GiveRibble</servlet-name>
+    <servlet-class>controller.GiveRibble</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>SetChat</servlet-name>
+    <servlet-class>controller.SetChat</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>GetChat</servlet-name>
+    <servlet-class>controller.GetChat</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>DeleteChat</servlet-name>
+    <servlet-class>controller.DeleteChat</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>AddGrade</servlet-name>
+    <servlet-class>controller.AddGrade</servlet-class>
+  </servlet>
+
+
+
+
+
+
+
+
+
+
+  <servlet-mapping>
+    <servlet-name>AdminSigninController</servlet-name>
+    <url-pattern>/Signin</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AdminLoginController</servlet-name>
+    <url-pattern>/Login</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GuessingGameTable</servlet-name>
+    <url-pattern>/Table</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>JoinTable</servlet-name>
+    <url-pattern>/JoinTable</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>LeaveTable</servlet-name>
+    <url-pattern>/LeaveTable</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AdminLogoutController</servlet-name>
+    <url-pattern>/Logout</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>TableStatus</servlet-name>
+    <url-pattern>/TableStatus</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UserStatus</servlet-name>
+    <url-pattern>/UserStatus</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GameStart</servlet-name>
+    <url-pattern>/GameStart</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GameStop</servlet-name>
+    <url-pattern>/GameStop</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GiveRibble</servlet-name>
+    <url-pattern>/GiveRibble</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SetChat</servlet-name>
+    <url-pattern>/SetChat</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GetChat</servlet-name>
+    <url-pattern>/GetChat</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DeleteChat</servlet-name>
+    <url-pattern>/DeleteChat</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AddGrade</servlet-name>
+    <url-pattern>/AddGrade</url-pattern>
+  </servlet-mapping>
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+</web-app>
